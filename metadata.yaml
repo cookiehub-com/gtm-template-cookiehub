@@ -1,3 +1,5 @@
 homepage: "https://www.cookiehub.com"
 documentation: "https://support.cookiehub.com/category/28-google-tag-manager"
 versions:
+  - sha: 32dac8a9a37582b21a966de38b95e3fbfd05a700
+    changeNotes: Initial Version
