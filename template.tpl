@@ -12,7 +12,11 @@ ___INFO___
   "type": "TAG",
   "id": "cvt_temp_public_id",
   "version": 1,
-  "categories": ["TAG_MANAGEMENT", "UTILITY", "PERSONALIZATION"],
+  "categories": [
+    "TAG_MANAGEMENT",
+    "UTILITY",
+    "PERSONALIZATION"
+  ],
   "securityGroups": [],
   "displayName": "CookieHub",
   "brand": {
@@ -54,6 +58,169 @@ ___TEMPLATE_PARAMETERS___
       }
     ],
     "help": "Type the 8 character domain code available in the CookieHub dashboard (Domain overview). If you haven\u0027t created your CookieHub account yet, you can register on cookiehub.com"
+  },
+  {
+    "type": "SELECT",
+    "name": "language",
+    "displayName": "Language",
+    "selectItems": [
+      {
+        "value": "sq",
+        "displayValue": "Albanian"
+      },
+      {
+        "value": "hy",
+        "displayValue": "Armanian"
+      },
+      {
+        "value": "bg",
+        "displayValue": "Bulgarian"
+      },
+      {
+        "value": "ca",
+        "displayValue": "Catalan"
+      },
+      {
+        "value": "zh",
+        "displayValue": "Chinese"
+      },
+      {
+        "value": "hr",
+        "displayValue": "Croatian"
+      },
+      {
+        "value": "cs",
+        "displayValue": "Czech"
+      },
+      {
+        "value": "da",
+        "displayValue": "Danish"
+      },
+      {
+        "value": "nl",
+        "displayValue": "Dutch"
+      },
+      {
+        "value": "en",
+        "displayValue": "English"
+      },
+      {
+        "value": "et",
+        "displayValue": "Estonian"
+      },
+      {
+        "value": "fi",
+        "displayValue": "Finnish"
+      },
+      {
+        "value": "fr",
+        "displayValue": "French"
+      },
+      {
+        "value": "de",
+        "displayValue": "German"
+      },
+      {
+        "value": "el",
+        "displayValue": "Greek"
+      },
+      {
+        "value": "hi",
+        "displayValue": "Hindi"
+      },
+      {
+        "value": "hu",
+        "displayValue": "Hungarian"
+      },
+      {
+        "value": "is",
+        "displayValue": "Icelandic"
+      },
+      {
+        "value": "id",
+        "displayValue": "Indonesian"
+      },
+      {
+        "value": "it",
+        "displayValue": "Italian"
+      },
+      {
+        "value": "ja",
+        "displayValue": "Japanese"
+      },
+      {
+        "value": "ko",
+        "displayValue": "Korean"
+      },
+      {
+        "value": "lv",
+        "displayValue": "Latvian"
+      },
+      {
+        "value": "lt",
+        "displayValue": "Lithuanian"
+      },
+      {
+        "value": "my",
+        "displayValue": "Malay"
+      },
+      {
+        "value": "no",
+        "displayValue": "Norwegian"
+      },
+      {
+        "value": "pl",
+        "displayValue": "Polish"
+      },
+      {
+        "value": "pt",
+        "displayValue": "Portuguese"
+      },
+      {
+        "value": "ro",
+        "displayValue": "Romanian"
+      },
+      {
+        "value": "ru",
+        "displayValue": "Russian"
+      },
+      {
+        "value": "sr",
+        "displayValue": "Serbian"
+      },
+      {
+        "value": "sk",
+        "displayValue": "Slovak"
+      },
+      {
+        "value": "es",
+        "displayValue": "Spanish"
+      },
+      {
+        "value": "sv",
+        "displayValue": "Swedish"
+      },
+      {
+        "value": "th",
+        "displayValue": "Thai"
+      },
+      {
+        "value": "tr",
+        "displayValue": "Turkish"
+      },
+      {
+        "value": "uk",
+        "displayValue": "Ukrainian"
+      },
+      {
+        "value": "vn",
+        "displayValue": "Vietnamese"
+      }
+    ],
+    "simpleValueType": true,
+    "notSetText": "As configured in the CookieHub dashboard",
+    "help": "You can select a language here to override the language settings selected for the domain in the CookieHub dashboard.\n\nYou can also select a variable to dynamicly set the language but make sure the value returned is the 2 character locale code.\n\nPlease note that the language selected here must be enabled for your domain.",
+    "macrosInSelect": true
   },
   {
     "type": "CHECKBOX",
@@ -168,6 +335,7 @@ const setInWindow = require('setInWindow');
 const code = data.code;
 const production = data.production;
 const consentMode = data.consent_mode;
+const language = data.language;
 
 if (!code)
 {
@@ -176,7 +344,8 @@ if (!code)
 
 const gtmSettings = {
   'enabled': true,
-  'consentMode': consentMode
+  'consentMode': consentMode,
+  'language': (language != null && language.length == 2 ? language : '')
 };
 
 setInWindow('cookiehub_gtm', gtmSettings, true);
@@ -226,7 +395,7 @@ ___WEB_PERMISSIONS___
           "key": "environments",
           "value": {
             "type": 1,
-            "string": "debug"
+            "string": "all"
           }
         }
       ]
