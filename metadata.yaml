@@ -3,5 +3,5 @@ documentation: "https://support.cookiehub.com/category/28-google-tag-manager"
 versions:
   - sha: 32dac8a9a37582b21a966de38b95e3fbfd05a700
     changeNotes: Initial Version
-  - sha: 32dac8a9a37582b21a966de38b95e3fbfd05a700
+  - sha: d82e7a007e71b8c8f382119210766afc9469c0b9
     changeNotes: Language field added to control the display language
