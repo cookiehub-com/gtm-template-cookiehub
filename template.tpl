@@ -5,7 +5,6 @@ Template Gallery Developer Terms of Service available at
 https://developers.google.com/tag-manager/gallery-tos (or such other URL as
 Google may provide), as modified from time to time.
 
-
 ___INFO___
 
 {
@@ -223,12 +222,23 @@ ___TEMPLATE_PARAMETERS___
     "macrosInSelect": true
   },
   {
-    "type": "CHECKBOX",
+    "type": "SELECT",
     "name": "production",
-    "checkboxText": "Production",
+    "displayName": "Production",
+    "macrosInSelect": true,
+    "selectItems": [
+      {
+        "value": true,
+        "displayValue": "true"
+      },
+      {
+        "value": false,
+        "displayValue": "false"
+      }
+    ],
     "simpleValueType": true,
-    "defaultValue": true,
-    "help": "Usually this checkbox should be checked. When working on a development site you can uncheck this box to be able to preview changes without publishing them on the production site."
+    "help": "On a production site this dropdown should be set to \"true\". When working on a development site you can set the value to \"false\" to be able to preview changes without publishing them on the production site.",
+    "defaultValue": true
   },
   {
     "type": "CHECKBOX",
@@ -330,7 +340,11 @@ log('data =', data);
 const injectScript = require('injectScript');
 const queryPermission = require('queryPermission');
 const setDefaultConsentState = require('setDefaultConsentState');
+const updateConsentState = require('updateConsentState');
 const setInWindow = require('setInWindow');
+const getCookie = require('getCookieValues');
+const fromBase64 = require('fromBase64');
+const JSON = require('JSON');
 
 const code = data.code;
 const production = data.production;
@@ -342,6 +356,7 @@ if (!code)
   data.gtmOnFailure();
 }
 
+
 const gtmSettings = {
   'enabled': true,
   'consentMode': consentMode,
@@ -352,10 +367,36 @@ setInWindow('cookiehub_gtm', gtmSettings, true);
 
 if (consentMode)
 {
-  const security = (data.security_storage_default && data.security_storage_default == 'granted');
-  const functional = (data.functional_storage_default && data.functional_storage_default == 'granted');
-  const analytics = (data.analytics_storage_default && data.analytics_storage_default == 'granted');
-  const ads = (data.ad_storage_default && data.ad_storage_default == 'granted');
+  let security = (data.security_storage_default && data.security_storage_default == 'granted');
+  let functional = (data.functional_storage_default && data.functional_storage_default == 'granted');
+  let analytics = (data.analytics_storage_default && data.analytics_storage_default == 'granted');
+  let ads = (data.ad_storage_default && data.ad_storage_default == 'granted');
+
+  // Check the current stored state
+  if (getCookie('cookiehub') != undefined && getCookie('cookiehub').length > 0)
+  {
+    let chState = fromBase64(getCookie('cookiehub')[0]);
+    if (chState == undefined)
+    {
+      chState = getCookie('cookiehub')[0];
+    }
+    
+    if (chState != undefined && chState.indexOf('categories') > 0)
+    {
+      chState = JSON.parse(chState);
+
+      if (chState.categories != undefined)
+      {
+        for (let i=0; i < chState.categories.length; i++)
+        {
+          if (chState.categories[i].id == 'necessary') security = chState.categories[i].value;
+          else if (chState.categories[i].id == 'preferences') functional = chState.categories[i].value;
+          else if (chState.categories[i].id == 'analytics') analytics = chState.categories[i].value;
+          else if (chState.categories[i].id == 'marketing') ads = chState.categories[i].value;
+        }
+      }
+    }
+  }
 
   setDefaultConsentState({
     'security_storage': (security ? 'granted' : 'denied'),
@@ -395,7 +436,7 @@ ___WEB_PERMISSIONS___
           "key": "environments",
           "value": {
             "type": 1,
-            "string": "all"
+            "string": "debug"
           }
         }
       ]
@@ -672,6 +713,39 @@ ___WEB_PERMISSIONS___
       "isEditedByUser": true
     },
     "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "get_cookies",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "cookieAccess",
+          "value": {
+            "type": 1,
+            "string": "specific"
+          }
+        },
+        {
+          "key": "cookieNames",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 1,
+                "string": "cookiehub"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
   }
 ]
 
@@ -683,6 +757,6 @@ scenarios: []
 
 ___NOTES___
 
-Created on 8/7/2021, 7:28:55 PM
+Created on 10/19/2021, 10:56:30 AM
 
 
