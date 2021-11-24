@@ -7,3 +7,5 @@ versions:
     changeNotes: Language field added to control the display language
   - sha: 9e8a3062ab1ba2c5f98c7436b5f8132b99738bfd
     changeNotes: Production field changed to select box to include variables. Reading consent state from cookie to set the correct consent mode before container load.
+  - sha: 9e8a3062ab1ba2c5f98c7436b5f8132b99738bfd
+    changeNotes: Added render position option

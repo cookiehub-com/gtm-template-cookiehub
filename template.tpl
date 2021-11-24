@@ -1,10 +1,3 @@
-___TERMS_OF_SERVICE___
-
-By creating or modifying this file you agree to Google Tag Manager's Community
-Template Gallery Developer Terms of Service available at
-https://developers.google.com/tag-manager/gallery-tos (or such other URL as
-Google may provide), as modified from time to time.
-
 ___INFO___
 
 {
@@ -241,6 +234,27 @@ ___TEMPLATE_PARAMETERS___
     "defaultValue": true
   },
   {
+    "type": "SELECT",
+    "name": "render_position",
+    "displayName": "Position of code",
+    "selectItems": [
+      {
+        "value": "",
+        "displayValue": "Default"
+      },
+      {
+        "value": "top",
+        "displayValue": "Top"
+      },
+      {
+        "value": "bottom",
+        "displayValue": "Bottom"
+      }
+    ],
+    "simpleValueType": true,
+    "help": "CookieHub will insert html code to your body tag containing the markup for the dialogs. By default the code is placed at the top of the body tag when enhanced accessibility is enabled but otherwise at the bottom."
+  },
+  {
     "type": "CHECKBOX",
     "name": "consent_mode",
     "checkboxText": "Enable Consent Mode",
@@ -350,6 +364,7 @@ const code = data.code;
 const production = data.production;
 const consentMode = data.consent_mode;
 const language = data.language;
+const renderPosition = data.render_position;
 
 if (!code)
 {
@@ -360,7 +375,8 @@ if (!code)
 const gtmSettings = {
   'enabled': true,
   'consentMode': consentMode,
-  'language': (language != null && language.length == 2 ? language : '')
+  'language': (language != null && language.length == 2 ? language : ''),
+  'renderPosition': renderPosition
 };
 
 setInWindow('cookiehub_gtm', gtmSettings, true);
