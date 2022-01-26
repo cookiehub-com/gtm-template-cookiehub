@@ -235,6 +235,25 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "SELECT",
+    "name": "show_ui",
+    "displayName": "Show user interface",
+    "macrosInSelect": true,
+    "selectItems": [
+      {
+        "value": true,
+        "displayValue": "true"
+      },
+      {
+        "value": false,
+        "displayValue": "false"
+      }
+    ],
+    "simpleValueType": true,
+    "help": "Usually this variable should be set to true but using this option you can hide the CookieHub user interface on certain pages",
+    "defaultValue": true
+  },
+  {
+    "type": "SELECT",
     "name": "render_position",
     "displayName": "Position of code",
     "selectItems": [
@@ -355,6 +374,7 @@ const injectScript = require('injectScript');
 const queryPermission = require('queryPermission');
 const setDefaultConsentState = require('setDefaultConsentState');
 const updateConsentState = require('updateConsentState');
+const encodeUriComponent = require('encodeUriComponent');
 const setInWindow = require('setInWindow');
 const getCookie = require('getCookieValues');
 const fromBase64 = require('fromBase64');
@@ -365,6 +385,7 @@ const production = data.production;
 const consentMode = data.consent_mode;
 const language = data.language;
 const renderPosition = data.render_position;
+const showUI = data.show_ui;
 
 if (!code)
 {
@@ -376,7 +397,8 @@ const gtmSettings = {
   'enabled': true,
   'consentMode': consentMode,
   'language': (language != null && language.length == 2 ? language : ''),
-  'renderPosition': renderPosition
+  'renderPosition': renderPosition,
+  'showUI': (typeof showUI === 'string' ? (showUI == 'true') : showUI)
 };
 
 setInWindow('cookiehub_gtm', gtmSettings, true);
@@ -423,7 +445,7 @@ if (consentMode)
   });
 }
 
-let url = (production ? 'https://cookiehub.net/c2/' : 'https://dash.cookiehub.com/dev/') + code + '.js';
+let url = (production ? 'https://cookiehub.net/c2/' : 'https://dash.cookiehub.com/dev/') + encodeUriComponent(code) + '.js';
 
 if (queryPermission('inject_script', url))
 {
