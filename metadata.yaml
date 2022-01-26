@@ -9,3 +9,5 @@ versions:
     changeNotes: Production field changed to select box to include variables. Reading consent state from cookie to set the correct consent mode before container load.
   - sha: f2f6d95d2fa2f9eb1f0e2d4c38b8a38e50276558
     changeNotes: Added render position option
+  - sha: 8b9d1991f0f1822f84e54a5dadda137c785b14e6
+    changeNotes: Added show user interface field to enable/disable UI based on variables
