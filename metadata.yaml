@@ -1,13 +1,17 @@
 homepage: "https://www.cookiehub.com"
 documentation: "https://docs.cookiehub.com/installation/google-tag-manager"
 versions:
-  - sha: 32dac8a9a37582b21a966de38b95e3fbfd05a700
-    changeNotes: Initial Version
-  - sha: d82e7a007e71b8c8f382119210766afc9469c0b9
-    changeNotes: Language field added to control the display language
-  - sha: 9e8a3062ab1ba2c5f98c7436b5f8132b99738bfd
-    changeNotes: Production field changed to select box to include variables. Reading consent state from cookie to set the correct consent mode before container load.
-  - sha: f2f6d95d2fa2f9eb1f0e2d4c38b8a38e50276558
-    changeNotes: Added render position option
+  # latest version
+  - sha: b7bd1d09297d90ab7f1e63e6b7bd2d3d322a9f01
+    changeNotes: Added developer_id
+  # previous versions
   - sha: 8b9d1991f0f1822f84e54a5dadda137c785b14e6
     changeNotes: Added show user interface field to enable/disable UI based on variables
+  - sha: f2f6d95d2fa2f9eb1f0e2d4c38b8a38e50276558
+    changeNotes: Added render position option
+  - sha: 9e8a3062ab1ba2c5f98c7436b5f8132b99738bfd
+    changeNotes: Production field changed to select box to include variables. Reading consent state from cookie to set the correct consent mode before container load.
+  - sha: d82e7a007e71b8c8f382119210766afc9469c0b9
+    changeNotes: Language field added to control the display language
+  - sha: 32dac8a9a37582b21a966de38b95e3fbfd05a700
+    changeNotes: Initial Version
