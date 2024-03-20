@@ -566,7 +566,8 @@ if (consentMode)
     'analytics_storage': (analytics ? 'granted' : 'denied'),
     'ad_storage': (ads ? 'granted' : 'denied'),
     'ad_user_data': (ads ? 'granted' : 'denied'),
-    'ad_personalization': (ads ? 'granted' : 'denied')
+    'ad_personalization': (ads ? 'granted' : 'denied'),
+    'wait_for_update': 2000
   });
 }
 
