@@ -538,21 +538,36 @@ if (consentMode)
             functional = true;
             analytics = true;
             ads = true;
+            adUserData = true;
+            adPersonalization = true;
           }
           else
           {
             functional = (chState.categories.indexOf(2) > -1);
             analytics = (chState.categories.indexOf(3) > -1);
             ads = (chState.categories.indexOf(4) > -1);
+            adUserData = (chState.categories.indexOf(4) > -1);
+            adPersonalization = (chState.categories.indexOf(4) > -1);
           }
         }
         else 
         {
           for (let i=0; i < chState.categories.length; i++)
           {
-            if (chState.categories[i].id == 'preferences') functional = chState.categories[i].value;
-            else if (chState.categories[i].id == 'analytics') analytics = chState.categories[i].value;
-            else if (chState.categories[i].id == 'marketing') ads = chState.categories[i].value;
+            if (chState.categories[i].id == 'preferences')
+            {
+              functional = chState.categories[i].value;
+            }
+            else if (chState.categories[i].id == 'analytics')
+            {
+              analytics = chState.categories[i].value;
+            }
+            else if (chState.categories[i].id == 'marketing')
+            {
+              ads = chState.categories[i].value;
+              adUserData = chState.categories[i].value;
+              adPersonalization = chState.categories[i].value;
+            }
           }
         }
       }
@@ -565,8 +580,8 @@ if (consentMode)
     'personalization_storage': (functional ? 'granted' : 'denied'),
     'analytics_storage': (analytics ? 'granted' : 'denied'),
     'ad_storage': (ads ? 'granted' : 'denied'),
-    'ad_user_data': (ads ? 'granted' : 'denied'),
-    'ad_personalization': (ads ? 'granted' : 'denied'),
+    'ad_user_data': (adUserData ? 'granted' : 'denied'),
+    'ad_personalization': (adPersonalization ? 'granted' : 'denied'),
     'wait_for_update': 2000
   });
 }
