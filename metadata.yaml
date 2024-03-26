@@ -2,9 +2,11 @@ homepage: "https://www.cookiehub.com"
 documentation: "https://docs.cookiehub.com/installation/google-tag-manager"
 versions:
   # latest version
+  - sha: 3da26056821152fc58b84ac752ce925b11577018
+    changeNotes: Restructured fields, added url passthrough, TCF stub and configurable wait_for_update
+  # previous versions
   - sha: bf0a087ff7d1d204e358f46bd30cfb9ea9c88a83
     changeNotes: Fixed default consent states for user_data and ad_personalization
-  # previous versions
   - sha: 5203a2abf3f8ba2f1a8ad607804cb6174a706068
     changeNotes: wait_for_update property added to default consent state
   - sha: b7bd1d09297d90ab7f1e63e6b7bd2d3d322a9f01
