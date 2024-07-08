@@ -2,9 +2,11 @@ homepage: "https://www.cookiehub.com"
 documentation: "https://docs.cookiehub.com/installation/google-tag-manager"
 versions:
   # latest version
+  - sha: d1b8ade11b551723c78bc71dccf00993bfeb88aa
+    changeNotes: Added regional default consent states, not overriding default consent state with user choices anymore and instead sending saved consent using consent mode updated command.
+  # previous versions
   - sha: 3da26056821152fc58b84ac752ce925b11577018
     changeNotes: Restructured fields, added url passthrough, TCF stub and configurable wait_for_update
-  # previous versions
   - sha: bf0a087ff7d1d204e358f46bd30cfb9ea9c88a83
     changeNotes: Fixed default consent states for user_data and ad_personalization
   - sha: 5203a2abf3f8ba2f1a8ad607804cb6174a706068
