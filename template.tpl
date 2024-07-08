@@ -391,6 +391,126 @@ ___TEMPLATE_PARAMETERS___
         "simpleValueType": true,
         "defaultValue": false,
         "help": "To improve ad click measurement quality when ad_storage is denied, you can optionally elect to pass information about ad clicks through URL parameters across pages using URL passthrough."
+      },
+      {
+        "type": "PARAM_TABLE",
+        "name": "region_defaults",
+        "displayName": "Region defaults",
+        "paramTableColumns": [
+          {
+            "param": {
+              "type": "TEXT",
+              "name": "region",
+              "displayName": "Regions",
+              "simpleValueType": true,
+              "valueHint": "DE,NL,FR,BE"
+            },
+            "isUnique": true
+          },
+          {
+            "param": {
+              "type": "SELECT",
+              "name": "region_functional_storage_default",
+              "displayName": "Preferences (functionality_storage and personalization_storage)",
+              "macrosInSelect": false,
+              "selectItems": [
+                {
+                  "value": "denied",
+                  "displayValue": "Denied"
+                },
+                {
+                  "value": "granted",
+                  "displayValue": "Granted"
+                }
+              ],
+              "simpleValueType": true
+            },
+            "isUnique": false
+          },
+          {
+            "param": {
+              "type": "SELECT",
+              "name": "region_analytics_storage_default",
+              "displayName": "Analytics (analytics_storage)",
+              "macrosInSelect": false,
+              "selectItems": [
+                {
+                  "value": "denied",
+                  "displayValue": "Denied"
+                },
+                {
+                  "value": "granted",
+                  "displayValue": "Granted"
+                }
+              ],
+              "simpleValueType": true
+            },
+            "isUnique": false
+          },
+          {
+            "param": {
+              "type": "SELECT",
+              "name": "region_ad_storage_default",
+              "displayName": "Marketing (ad_storage)",
+              "macrosInSelect": false,
+              "selectItems": [
+                {
+                  "value": "denied",
+                  "displayValue": "Denied"
+                },
+                {
+                  "value": "granted",
+                  "displayValue": "Granted"
+                }
+              ],
+              "simpleValueType": true
+            },
+            "isUnique": false
+          },
+          {
+            "param": {
+              "type": "SELECT",
+              "name": "region_ad_user_data_default",
+              "displayName": "Sending user data related to advertising to Google (ad_user_data)",
+              "macrosInSelect": false,
+              "selectItems": [
+                {
+                  "value": "denied",
+                  "displayValue": "Denied"
+                },
+                {
+                  "value": "granted",
+                  "displayValue": "Granted"
+                }
+              ],
+              "simpleValueType": true
+            },
+            "isUnique": false
+          },
+          {
+            "param": {
+              "type": "SELECT",
+              "name": "region_ad_personalization_default",
+              "displayName": "Personalized advertising (ad_personalization)",
+              "macrosInSelect": false,
+              "selectItems": [
+                {
+                  "value": "denied",
+                  "displayValue": "Denied"
+                },
+                {
+                  "value": "granted",
+                  "displayValue": "Granted"
+                }
+              ],
+              "simpleValueType": true
+            },
+            "isUnique": false
+          }
+        ],
+        "newRowTitle": "Add region",
+        "newRowButtonText": "Add region",
+        "editRowTitle": "Edit region"
       }
     ],
     "enablingConditions": [
@@ -518,6 +638,7 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 const log = require('logToConsole');
 log('data =', data);
 
+// Import the required modules
 const injectScript = require('injectScript');
 const queryPermission = require('queryPermission');
 const setDefaultConsentState = require('setDefaultConsentState');
@@ -529,6 +650,7 @@ const fromBase64 = require('fromBase64');
 const JSON = require('JSON');
 const gtagSet = require('gtagSet');
 
+// Get the user provided settings
 const code = data.code;
 const production = (data.production != null ? (typeof data.production === 'string' ? data.production == 'true' : data.production) : false);
 const consentMode = data.consent_mode;
@@ -537,26 +659,27 @@ const renderPosition = data.render_position;
 const showUI = data.show_ui;
 const showIcon = data.show_icon;
 const expiryDays = data.expiry_days;
-const waitForUpdate = data.wait_for_update;
+const regionDefaults = data.region_defaults;
 
-let linker = [];
-
-if (data.linker != undefined && typeof data.linker === 'string' && data.linker.trim() != '') {
-  if (data.linker.indexOf(',') > 0) {
-    linker = data.linker.split(',');
-  }
-  else
-  {
-    linker.push(data.linker);
-  }
-}
-
-if (!code)
-{
+// Stop processing if the CookieHub code is not provided
+if (!code) {
   data.gtmOnFailure();
 }
 
+// Splits the input string using comma as a delimiter, returning an array of strings
+const splitInput = (input) => {
+  return input.split(',')
+    .map(entry => entry.trim())
+    .filter(entry => entry.length !== 0);
+};
 
+// Check if linker is provided and prepare an array og hostnames
+let linker = [];
+if (data.linker != undefined && typeof data.linker === 'string' && data.linker.trim() != '') {
+  linker = splitInput(data.linker);
+}
+
+// Populate the gtmSettings object which is used to send configuration data to the CookieHub CMP
 const gtmSettings = {
   'enabled': true,
   'consentMode': consentMode,
@@ -570,104 +693,107 @@ const gtmSettings = {
 
 setInWindow('cookiehub_gtm', gtmSettings, true);
 
-if (consentMode)
-{
+if (consentMode) {
   gtagSet({
     url_passthrough: data.url_passthrough,
-    "developer_id.dMzY0Yz": true
+    'developer_id.dMzY0Yz': true
   });
-  
-  let security = (data.security_storage_default && data.security_storage_default == 'granted');
-  let functional = (data.functional_storage_default && data.functional_storage_default == 'granted');
-  let analytics = (data.analytics_storage_default && data.analytics_storage_default == 'granted');
-  let ads = (data.ad_storage_default && data.ad_storage_default == 'granted');
-  let adUserData = (data.ad_user_data_default && data.ad_user_data_default == 'granted');
-  let adPersonalization = (data.ad_personalization_default && data.ad_personalization_default == 'granted');
 
-  // Check the current stored state
-  if (getCookie('cookiehub') != undefined && getCookie('cookiehub').length > 0)
+  // Set the global consent defaults
+  setDefaultConsentState({
+    'security_storage': (data.security_storage_default && data.security_storage_default == 'granted' ? 'granted' : 'denied'),
+    'functionality_storage': (data.functional_storage_default && data.functional_storage_default == 'granted' ? 'granted' : 'denied'),
+    'personalization_storage': (data.functional_storage_default && data.functional_storage_default == 'granted' ? 'granted' : 'denied'),
+    'analytics_storage': (data.analytics_storage_default && data.analytics_storage_default == 'granted' ? 'granted' : 'denied'),
+    'ad_storage': (data.ad_storage_default && data.ad_storage_default == 'granted' ? 'granted' : 'denied'),
+    'ad_user_data': (data.ad_user_data_default && data.ad_user_data_default == 'granted' ? 'granted' : 'denied'),
+    'ad_personalization': (data.ad_personalization_default && data.ad_personalization_default == 'granted' ? 'granted' : 'denied'),
+    'wait_for_update': data.wait_for_update
+  });
+
+  // Set regions defaults if provided
+  if (regionDefaults != null)
   {
+    regionDefaults.forEach(currentRegion => {
+      const regionList = splitInput(currentRegion.region);
+      if (regionList.length > 0) {
+        setDefaultConsentState({
+          'security_storage': (data.security_storage_default && data.security_storage_default == 'granted' ? 'granted' : 'denied'),
+          'functionality_storage': currentRegion.region_functional_storage_default,
+          'personalization_storage': currentRegion.region_functional_storage_default,
+          'analytics_storage': currentRegion.region_analytics_storage_default,
+          'ad_storage': currentRegion.region_ad_storage_default,
+          'ad_user_data': currentRegion.region_ad_user_data_default,
+          'ad_personalization': currentRegion.region_ad_personalization_default,
+          'region': regionList
+        });
+      }
+    });
+  }
+
+  // Check if the user has consented already
+  if (getCookie('cookiehub') != undefined && getCookie('cookiehub').length > 0) {
     let chState = fromBase64(getCookie('cookiehub')[0]);
-    if (chState == undefined)
-    {
+    if (chState == undefined) {
       chState = getCookie('cookiehub')[0];
     }
-    
-    if (chState != undefined && chState.indexOf('categories') > 0)
-    {
+
+    if (chState != undefined && chState.indexOf('categories') > 0) {
       chState = JSON.parse(chState);
 
-      if (chState.categories != undefined)
-      {
-        security = true;
-        
-        if (chState.allAllowed != undefined)
-        {
-          if (chState.allAllowed)
-          {
+      if (chState.categories != undefined) {
+        let security = true;
+        let functional = false;
+        let analytics = false;
+        let ads = false;
+
+        if (chState.allAllowed != undefined) {
+          if (chState.allAllowed) {
             functional = true;
             analytics = true;
             ads = true;
-            adUserData = true;
-            adPersonalization = true;
-          }
-          else
-          {
+          } else {
             functional = (chState.categories.indexOf(2) > -1);
             analytics = (chState.categories.indexOf(3) > -1);
             ads = (chState.categories.indexOf(4) > -1);
-            adUserData = (chState.categories.indexOf(4) > -1);
-            adPersonalization = (chState.categories.indexOf(4) > -1);
           }
-        }
-        else 
-        {
-          for (let i=0; i < chState.categories.length; i++)
-          {
-            if (chState.categories[i].id == 'preferences')
-            {
+        } else {
+          for (let i=0; i < chState.categories.length; i++) {
+            if (chState.categories[i].id == 'preferences') {
               functional = chState.categories[i].value;
-            }
-            else if (chState.categories[i].id == 'analytics')
-            {
+            } else if (chState.categories[i].id == 'analytics') {
               analytics = chState.categories[i].value;
-            }
-            else if (chState.categories[i].id == 'marketing')
-            {
+            } else if (chState.categories[i].id == 'marketing') {
               ads = chState.categories[i].value;
-              adUserData = chState.categories[i].value;
-              adPersonalization = chState.categories[i].value;
             }
           }
         }
+
+        updateConsentState({
+          'security_storage': (security ? 'granted' : 'denied'),
+          'functionality_storage': (functional ? 'granted' : 'denied'),
+          'personalization_storage': (functional ? 'granted' : 'denied'),
+          'analytics_storage': (analytics ? 'granted' : 'denied'),
+          'ad_storage': (ads ? 'granted' : 'denied'),
+          'ad_user_data': (ads ? 'granted' : 'denied'),
+          'ad_personalization': (ads ? 'granted' : 'denied')
+        });
       }
     }
   }
-
-  setDefaultConsentState({
-    'security_storage': (security ? 'granted' : 'denied'),
-    'functionality_storage': (functional ? 'granted' : 'denied'),
-    'personalization_storage': (functional ? 'granted' : 'denied'),
-    'analytics_storage': (analytics ? 'granted' : 'denied'),
-    'ad_storage': (ads ? 'granted' : 'denied'),
-    'ad_user_data': (adUserData ? 'granted' : 'denied'),
-    'ad_personalization': (adPersonalization ? 'granted' : 'denied'),
-    'wait_for_update': data.wait_for_update
-  });
 }
 
 let url = (production ? 'https://cdn.cookiehub.eu/c2/' : 'https://dash.cookiehub.com/dev/') + encodeUriComponent(code) + '.js';
-
-if (queryPermission('inject_script', url))
-{
-  if (data.iab_tcf)
-  {
+if (queryPermission('inject_script', url)) {
+  if (data.iab_tcf) {
+    // Load the IAB TCF stub script if the user has enabled it
     injectScript('https://cdn.cookiehub.eu/tcf/v3/stub.js', function() {}, function() {});
   }
+
+  // Load the CookieHub CMP script
   injectScript(url, data.gtmOnSuccess, data.gtmOnFailure);
-}
-else
-{
+} else {
+  // Call data.gtmOnFailure if the script cannot be injected
   data.gtmOnFailure();
 }
 
