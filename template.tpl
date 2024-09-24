@@ -234,10 +234,18 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "CHECKBOX",
     "name": "iab_tcf",
-    "checkboxText": "Enable IAB Transparency and Consent Framework",
+    "checkboxText": "Enable IAB Transparency and Consent Framework (TCF)",
     "simpleValueType": true,
     "defaultValue": false,
     "help": "When enabled, the IAB TCF stub code will be injected. Please note that you must also enable IAB TCF from the CookieHub dashboard."
+  },
+  {
+    "type": "CHECKBOX",
+    "name": "iab_gpp",
+    "checkboxText": "Enable IAB Global Privacy Platform (GPP)",
+    "simpleValueType": true,
+    "defaultValue": false,
+    "help": "When enabled, the IAB GPP stub code will be injected. Please note that you must also enable IAB GPP from the CookieHub dashboard."
   },
   {
     "type": "GROUP",
@@ -790,6 +798,11 @@ if (queryPermission('inject_script', url)) {
     injectScript('https://cdn.cookiehub.eu/tcf/v3/stub.js', function() {}, function() {});
   }
 
+  if (data.iab_gpp) {
+    // Load the IAB GPP stub script if the user has enabled it
+    injectScript('https://cdn.cookiehub.eu/gpp/v3/stub.js', function() {}, function() {});
+  }
+  
   // Load the CookieHub CMP script
   injectScript(url, data.gtmOnSuccess, data.gtmOnFailure);
 } else {
