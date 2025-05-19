@@ -2,9 +2,11 @@ homepage: "https://www.cookiehub.com"
 documentation: "https://docs.cookiehub.com/installation/google-tag-manager"
 versions:
   # latest version
+  - sha: eefcf33ab96c59b1c6a6dedf0f9dfcc39f2b3212
+    changeNotes: Vendor details added
+  # previous versions
   - sha: f66c7f06d4ca5b981295d8cab5d6b6c7b0fe055c
     changeNotes: Added field to load the IAB GPP stub
-  # previous versions
   - sha: d1b8ade11b551723c78bc71dccf00993bfeb88aa
     changeNotes: Added regional default consent states, not overriding default consent state with user choices anymore and instead sending saved consent using consent mode updated command.
   - sha: 3da26056821152fc58b84ac752ce925b11577018
