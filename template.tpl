@@ -30,6 +30,67 @@ ___INFO___
   ]
 }
 
+___VENDOR_DETAILS___
+
+{
+  "vendorName": "CookieHub",
+  "description": "CookieHub is a fully featured easy to use Consent Management Platform (CMP), providing everything you need to make your website GDPR, CCPA, LGPD, CNIL and POPIA compliant.",
+  "homepageUrl": "https://www.cookiehub.com/",
+  "termsAndConditionsUrl": "https://www.cookiehub.com/terms-and-conditions/",
+  "freeTrial": "30-day free trial",
+  "freeTier": "Free tier available",
+  "price": "Lifetime free plan available. \nPremium plans start at €8/month.",
+  "countries": "No limitations",
+  "languages": [
+    "ar",
+    "bg",
+    "ca",
+    "cs",
+    "cy",
+    "da",
+    "de",
+    "el",
+    "en",
+    "es",
+    "et",
+    "fi",
+    "fr",
+    "hi",
+    "hr",
+    "hu",
+    "hy",
+    "id",
+    "is",
+    "it",
+    "iw",
+    "ja",
+    "ko",
+    "lt",
+    "lv",
+    "my",
+    "nl",
+    "no",
+    "pl",
+    "pt",
+    "ro",
+    "ru",
+    "sk",
+    "sl",
+    "sq",
+    "sr",
+    "sv",
+    "th",
+    "tr",
+    "uk",
+    "vi",
+    "zh"
+  ],
+  "platforms": [
+    "WEB"
+  ],
+  "defaultSettingsUrl": "https://docs.cookiehub.com/compliance/preconfigured-settings#1-default-explicit-consent"
+}
+
 
 ___TEMPLATE_PARAMETERS___
 
