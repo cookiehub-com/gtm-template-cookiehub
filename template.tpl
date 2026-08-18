@@ -921,10 +921,11 @@ if (consentMode) {
   }
 
   // Check if the user has consented already
-  if (getCookie('cookiehub') != undefined && getCookie('cookiehub').length > 0) {
-    let chState = fromBase64(getCookie('cookiehub')[0]);
+  const consentCookie = getCookie('cookiehub');
+  if (consentCookie != undefined && consentCookie.length > 0) {
+    let chState = fromBase64(consentCookie[0]);
     if (chState == undefined) {
-      chState = getCookie('cookiehub')[0];
+      chState = consentCookie[0];
     }
 
     if (chState != undefined && chState.indexOf('categories') > 0) {
