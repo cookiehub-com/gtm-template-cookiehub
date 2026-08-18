@@ -930,7 +930,7 @@ if (consentMode) {
     if (chState != undefined && chState.indexOf('categories') > 0) {
       chState = JSON.parse(chState);
 
-      if (chState.categories != undefined) {
+      if (chState != undefined && chState.categories != undefined) {
         let security = true;
         let functional = false;
         let analytics = false;
