@@ -883,7 +883,7 @@ if (consentMode) {
   }
 
   gtagSet({
-    url_passthrough: data.url_passthrough,
+    url_passthrough: (typeof data.url_passthrough === 'string' ? (data.url_passthrough == 'true') : data.url_passthrough),
     'developer_id.dMzY0Yz': true
   });
 
