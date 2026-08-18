@@ -755,7 +755,7 @@ const gtmSettings = {
   'language': (language != null && language.length == 2 ? language : ''),
   'renderPosition': renderPosition,
   'showUI': (typeof showUI === 'string' ? (showUI == 'true') : showUI),
-  'showIcon': showIcon,
+  'showIcon': (typeof showIcon === 'string' ? (showIcon == 'true') : showIcon),
   'expiryDays': (expiryDays != null && expiryDays != '' ? expiryDays : null),
   'linker': linker
 };
