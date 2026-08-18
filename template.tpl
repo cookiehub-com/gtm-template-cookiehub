@@ -718,6 +718,7 @@ const getCookie = require('getCookieValues');
 const fromBase64 = require('fromBase64');
 const JSON = require('JSON');
 const gtagSet = require('gtagSet');
+const makeNumber = require('makeNumber');
 
 // Get the user provided settings
 const code = data.code;
@@ -763,6 +764,12 @@ const gtmSettings = {
 setInWindow('cookiehub_gtm', gtmSettings, true);
 
 if (consentMode) {
+  // Coerce wait_for_update to a number, falling back to 500ms when the value is invalid
+  let waitForUpdate = makeNumber(data.wait_for_update);
+  if (!(waitForUpdate > 0)) {
+    waitForUpdate = 500;
+  }
+
   gtagSet({
     url_passthrough: data.url_passthrough,
     'developer_id.dMzY0Yz': true
@@ -777,7 +784,7 @@ if (consentMode) {
     'ad_storage': (data.ad_storage_default && data.ad_storage_default == 'granted' ? 'granted' : 'denied'),
     'ad_user_data': (data.ad_user_data_default && data.ad_user_data_default == 'granted' ? 'granted' : 'denied'),
     'ad_personalization': (data.ad_personalization_default && data.ad_personalization_default == 'granted' ? 'granted' : 'denied'),
-    'wait_for_update': data.wait_for_update
+    'wait_for_update': waitForUpdate
   });
 
   // Set regions defaults if provided
