@@ -846,6 +846,7 @@ const regionDefaults = data.region_defaults;
 // Stop processing if the CookieHub code is not provided
 if (!code) {
   data.gtmOnFailure();
+  return;
 }
 
 // Splits the input string using comma as a delimiter, returning an array of strings
