@@ -883,10 +883,8 @@ setInWindow('cookiehub_gtm', gtmSettings, true);
 
 if (consentMode) {
   // Coerce wait_for_update to a number, falling back to 500ms when the value is invalid
-  let waitForUpdate = makeNumber(data.wait_for_update);
-  if (!(waitForUpdate > 0)) {
-    waitForUpdate = 500;
-  }
+  const parsedWaitForUpdate = makeNumber(data.wait_for_update);
+  const waitForUpdate = (parsedWaitForUpdate > 0 ? parsedWaitForUpdate : 500);
 
   gtagSet({
     url_passthrough: (typeof data.url_passthrough === 'string' ? (data.url_passthrough == 'true') : data.url_passthrough),
