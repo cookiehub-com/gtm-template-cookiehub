@@ -42,8 +42,11 @@ ___VENDOR_DETAILS___
   "price": "Lifetime free plan available. \nPremium plans start at €8/month.",
   "countries": "No limitations",
   "languages": [
+    "af",
     "ar",
     "bg",
+    "bn",
+    "bs",
     "ca",
     "cs",
     "cy",
@@ -53,8 +56,13 @@ ___VENDOR_DETAILS___
     "en",
     "es",
     "et",
+    "eu",
+    "fa",
     "fi",
+    "fo",
     "fr",
+    "ga",
+    "gl",
     "hi",
     "hr",
     "hu",
@@ -64,9 +72,12 @@ ___VENDOR_DETAILS___
     "it",
     "iw",
     "ja",
+    "ka",
     "ko",
+    "lb",
     "lt",
     "lv",
+    "mt",
     "my",
     "nl",
     "no",
@@ -79,9 +90,14 @@ ___VENDOR_DETAILS___
     "sq",
     "sr",
     "sv",
+    "sw",
+    "ta",
     "th",
+    "tl",
     "tr",
     "uk",
+    "ur",
+    "uz",
     "vi",
     "zh"
   ],
@@ -127,12 +143,32 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "Language",
     "selectItems": [
       {
+        "value": "af",
+        "displayValue": "Afrikaans"
+      },
+      {
         "value": "sq",
         "displayValue": "Albanian"
       },
       {
+        "value": "ar",
+        "displayValue": "Arabic"
+      },
+      {
         "value": "hy",
-        "displayValue": "Armanian"
+        "displayValue": "Armenian"
+      },
+      {
+        "value": "eu",
+        "displayValue": "Basque"
+      },
+      {
+        "value": "bn",
+        "displayValue": "Bengali"
+      },
+      {
+        "value": "bs",
+        "displayValue": "Bosnian"
       },
       {
         "value": "bg",
@@ -145,6 +181,10 @@ ___TEMPLATE_PARAMETERS___
       {
         "value": "zh",
         "displayValue": "Chinese"
+      },
+      {
+        "value": "zh-tw",
+        "displayValue": "Chinese (Traditional)"
       },
       {
         "value": "hr",
@@ -167,8 +207,20 @@ ___TEMPLATE_PARAMETERS___
         "displayValue": "English"
       },
       {
+        "value": "en-us",
+        "displayValue": "English (US)"
+      },
+      {
         "value": "et",
         "displayValue": "Estonian"
+      },
+      {
+        "value": "fo",
+        "displayValue": "Faroese"
+      },
+      {
+        "value": "tl",
+        "displayValue": "Filipino"
       },
       {
         "value": "fi",
@@ -179,12 +231,28 @@ ___TEMPLATE_PARAMETERS___
         "displayValue": "French"
       },
       {
+        "value": "fr-ca",
+        "displayValue": "French (Canada)"
+      },
+      {
+        "value": "gl",
+        "displayValue": "Galician"
+      },
+      {
+        "value": "ka",
+        "displayValue": "Georgian"
+      },
+      {
         "value": "de",
         "displayValue": "German"
       },
       {
         "value": "el",
         "displayValue": "Greek"
+      },
+      {
+        "value": "iw",
+        "displayValue": "Hebrew"
       },
       {
         "value": "hi",
@@ -201,6 +269,10 @@ ___TEMPLATE_PARAMETERS___
       {
         "value": "id",
         "displayValue": "Indonesian"
+      },
+      {
+        "value": "ga",
+        "displayValue": "Irish"
       },
       {
         "value": "it",
@@ -223,12 +295,24 @@ ___TEMPLATE_PARAMETERS___
         "displayValue": "Lithuanian"
       },
       {
+        "value": "lb",
+        "displayValue": "Luxembourgish"
+      },
+      {
         "value": "my",
         "displayValue": "Malay"
       },
       {
+        "value": "mt",
+        "displayValue": "Maltese"
+      },
+      {
         "value": "no",
         "displayValue": "Norwegian"
+      },
+      {
+        "value": "fa",
+        "displayValue": "Persian"
       },
       {
         "value": "pl",
@@ -237,6 +321,10 @@ ___TEMPLATE_PARAMETERS___
       {
         "value": "pt",
         "displayValue": "Portuguese"
+      },
+      {
+        "value": "pt-br",
+        "displayValue": "Portuguese (Brazil)"
       },
       {
         "value": "ro",
@@ -255,12 +343,24 @@ ___TEMPLATE_PARAMETERS___
         "displayValue": "Slovak"
       },
       {
+        "value": "sl",
+        "displayValue": "Slovenian"
+      },
+      {
         "value": "es",
         "displayValue": "Spanish"
       },
       {
+        "value": "sw",
+        "displayValue": "Swahili"
+      },
+      {
         "value": "sv",
         "displayValue": "Swedish"
+      },
+      {
+        "value": "ta",
+        "displayValue": "Tamil"
       },
       {
         "value": "th",
@@ -275,13 +375,25 @@ ___TEMPLATE_PARAMETERS___
         "displayValue": "Ukrainian"
       },
       {
-        "value": "vn",
+        "value": "ur",
+        "displayValue": "Urdu"
+      },
+      {
+        "value": "uz",
+        "displayValue": "Uzbek"
+      },
+      {
+        "value": "vi",
         "displayValue": "Vietnamese"
+      },
+      {
+        "value": "cy",
+        "displayValue": "Welsh"
       }
     ],
     "simpleValueType": true,
     "notSetText": "As configured in the CookieHub dashboard",
-    "help": "You can select a language here to override the language settings selected for the domain in the CookieHub dashboard.\n\nYou can also select a variable to dynamicly set the language but make sure the value returned is the 2 character locale code.\n\nPlease note that the language selected here must be enabled for your domain.",
+    "help": "You can select a language here to override the language settings selected for the domain in the CookieHub dashboard.\n\nYou can also select a variable to dynamically set the language but make sure the value returned is a supported locale code (e.g. en or pt-br).\n\nPlease note that the language selected here must be enabled for your domain.",
     "macrosInSelect": true
   },
   {
@@ -753,7 +865,7 @@ if (data.linker != undefined && typeof data.linker === 'string' && data.linker.t
 const gtmSettings = {
   'enabled': true,
   'consentMode': consentMode,
-  'language': (language != null && language.length == 2 ? language : ''),
+  'language': (language != null && (language.length == 2 || language.length == 5) ? language : ''),
   'renderPosition': renderPosition,
   'showUI': (typeof showUI === 'string' ? (showUI == 'true') : showUI),
   'showIcon': (typeof showIcon === 'string' ? (showIcon == 'true') : showIcon),
