@@ -2,9 +2,11 @@ homepage: "https://www.cookiehub.com"
 documentation: "https://docs.cookiehub.com/installation/google-tag-manager"
 versions:
   # latest version
+  - sha: 03c23324962bd9a0d7f302941f94d43cbc256531
+    changeNotes: Fixed handling of variable values for show_icon and url_passthrough, changed the default wait_for_update to 500ms and included it in regional consent defaults, added new supported languages, updated pricing and preview images, added test scenarios and various minor fixes.
+  # previous versions
   - sha: eefcf33ab96c59b1c6a6dedf0f9dfcc39f2b3212
     changeNotes: Vendor details added
-  # previous versions
   - sha: f66c7f06d4ca5b981295d8cab5d6b6c7b0fe055c
     changeNotes: Added field to load the IAB GPP stub
   - sha: d1b8ade11b551723c78bc71dccf00993bfeb88aa
