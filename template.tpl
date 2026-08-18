@@ -433,7 +433,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "wait_for_update",
         "displayName": "Wait for update",
         "simpleValueType": true,
-        "defaultValue": 2000,
+        "defaultValue": 500,
         "valueUnit": "milliseconds",
         "help": "Used with Consent Mode. When a CMP loads asynchronously, it might not always run before Google tags. To handle such situations, the wait_for_update will specify how long in millisecond to wait before data is sent.",
         "valueValidators": [
