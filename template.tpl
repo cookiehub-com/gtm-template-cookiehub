@@ -44,7 +44,7 @@ ___VENDOR_DETAILS___
   "termsAndConditionsUrl": "https://www.cookiehub.com/terms-and-conditions/",
   "freeTrial": "14-day free trial",
   "freeTier": "Free tier available",
-  "price": "<ul><li><b>Free:</b> 0€ (up to 1,000 sessions / month)</li><li><b>Starter:</b> 6€ / month (up to 5,000 sessions / month)</li><li><b>Basic:</b> 10€ / month (up to 30,000 sessions / month)</li><li><b>Business:</b> 30€ - 120€ / month (120,000 to 1,000,000 sessions / month)</li><li><b>Enterprise:</b> Custom</li></ul>",
+  "price": "<ul><li>Free: 0€ (1,000 sessions/mo)</li><li>Starter: 6€/mo (5,000)</li><li>Basic: 10€/mo (30,000)</li><li>Business: 30-120€/mo (up to 1M)</li><li>Enterprise: Custom</li></ul>",
   "countries": "No limitations",
   "languages": [
     "af",
