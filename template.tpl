@@ -1419,7 +1419,163 @@ ___WEB_PERMISSIONS___
 
 ___TESTS___
 
-scenarios: []
+scenarios:
+- name: Injects the production script when a code is provided
+  code: |-
+    const mockData = {
+      code: '12345678',
+      production: true
+    };
+
+    let injectedUrl;
+    mock('encodeUriComponent', (input) => input);
+    mock('injectScript', (url, onSuccess, onFailure) => {
+      injectedUrl = url;
+      onSuccess();
+    });
+
+    runCode(mockData);
+
+    assertThat(injectedUrl).isEqualTo('https://cdn.cookiehub.eu/c2/12345678.js');
+    assertApi('gtmOnSuccess').wasCalled();
+- name: Injects the dev script when production is false
+  code: |-
+    const mockData = {
+      code: '12345678',
+      production: false
+    };
+
+    let injectedUrl;
+    mock('encodeUriComponent', (input) => input);
+    mock('injectScript', (url, onSuccess, onFailure) => {
+      injectedUrl = url;
+      onSuccess();
+    });
+
+    runCode(mockData);
+
+    assertThat(injectedUrl).isEqualTo('https://dash.cookiehub.com/dev/12345678.js');
+- name: Fails without side effects when the code is missing
+  code: |-
+    const mockData = {
+      code: '',
+      consent_mode: true
+    };
+
+    runCode(mockData);
+
+    assertApi('gtmOnFailure').wasCalled();
+    assertApi('gtmOnSuccess').wasNotCalled();
+    assertApi('injectScript').wasNotCalled();
+    assertApi('setDefaultConsentState').wasNotCalled();
+- name: Sets default consent state from settings
+  code: |-
+    const mockData = {
+      code: '12345678',
+      consent_mode: true,
+      security_storage_default: 'granted',
+      analytics_storage_default: 'denied',
+      ad_storage_default: 'denied',
+      wait_for_update: '750'
+    };
+
+    mock('makeNumber', (input) => input * 1);
+
+    runCode(mockData);
+
+    assertApi('setDefaultConsentState').wasCalledWith({
+      security_storage: 'granted',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 750
+    });
+- name: Sets regional defaults with region list and wait_for_update
+  code: |-
+    const mockData = {
+      code: '12345678',
+      consent_mode: true,
+      security_storage_default: 'granted',
+      region_defaults: [{
+        region: 'DE, AT',
+        region_functional_storage_default: 'denied',
+        region_analytics_storage_default: 'granted',
+        region_ad_storage_default: 'denied',
+        region_ad_user_data_default: 'denied',
+        region_ad_personalization_default: 'denied'
+      }]
+    };
+
+    runCode(mockData);
+
+    assertApi('setDefaultConsentState').wasCalledWith({
+      security_storage: 'granted',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      analytics_storage: 'granted',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500,
+      region: ['DE', 'AT']
+    });
+- name: Restores consent state from the cookiehub cookie
+  code: |-
+    const cookieValue = '{"answered":true,"categories":[{"id":"preferences","value":true},{"id":"analytics","value":true},{"id":"marketing","value":false}]}';
+    const mockData = {
+      code: '12345678',
+      consent_mode: true
+    };
+
+    mock('getCookieValues', [cookieValue]);
+    mock('fromBase64', (input) => undefined);
+
+    runCode(mockData);
+
+    assertApi('updateConsentState').wasCalledWith({
+      security_storage: 'granted',
+      functionality_storage: 'granted',
+      personalization_storage: 'granted',
+      analytics_storage: 'granted',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied'
+    });
+- name: Makes no consent calls when consent mode is disabled
+  code: |-
+    const mockData = {
+      code: '12345678',
+      consent_mode: false
+    };
+
+    runCode(mockData);
+
+    assertApi('setDefaultConsentState').wasNotCalled();
+    assertApi('updateConsentState').wasNotCalled();
+    assertApi('gtagSet').wasNotCalled();
+    assertApi('gtmOnSuccess').wasCalled();
+- name: Coerces string variable values in window settings
+  code: |-
+    const mockData = {
+      code: '12345678',
+      show_ui: 'false',
+      show_icon: 'false',
+      language: 'en'
+    };
+
+    let settings;
+    mock('setInWindow', (key, value, overwrite) => {
+      settings = value;
+    });
+
+    runCode(mockData);
+
+    assertThat(settings.showUI).isFalse();
+    assertThat(settings.showIcon).isFalse();
+    assertThat(settings.language).isEqualTo('en');
 
 
 ___NOTES___
