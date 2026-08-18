@@ -801,6 +801,7 @@ if (consentMode) {
           'ad_storage': currentRegion.region_ad_storage_default,
           'ad_user_data': currentRegion.region_ad_user_data_default,
           'ad_personalization': currentRegion.region_ad_personalization_default,
+          'wait_for_update': waitForUpdate,
           'region': regionList
         });
       }
