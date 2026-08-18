@@ -834,7 +834,7 @@ const makeNumber = require('makeNumber');
 
 // Get the user provided settings
 const code = data.code;
-const production = (data.production != null ? (typeof data.production === 'string' ? data.production == 'true' : data.production) : false);
+const production = (data.production != null ? (typeof data.production === 'string' ? data.production == 'true' : data.production) : true);
 const consentMode = data.consent_mode;
 const language = data.language;
 const renderPosition = data.render_position;
