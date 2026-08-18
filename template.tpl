@@ -746,7 +746,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "linker",
         "displayName": "CookieHub Linker",
         "simpleValueType": true,
-        "help": "A comma seperated list of domains/hostnames. CookieHub Linker is used to forward consent state to different top level domains. CookieHub will automatically add a _cl parameter containing the consent state on links for the domains/hostnames specified in the linker textbox.",
+        "help": "A comma separated list of domains/hostnames. CookieHub Linker is used to forward consent state to different top level domains. CookieHub will automatically add a _cl parameter containing the consent state on links for the domains/hostnames specified in the linker textbox.",
         "canBeEmptyString": true,
         "valueHint": "cookiehub.com,cookiehub.de"
       },
@@ -855,7 +855,7 @@ const splitInput = (input) => {
     .filter(entry => entry.length !== 0);
 };
 
-// Check if linker is provided and prepare an array og hostnames
+// Check if linker is provided and prepare an array of hostnames
 let linker = [];
 if (data.linker != undefined && typeof data.linker === 'string' && data.linker.trim() != '') {
   linker = splitInput(data.linker);
